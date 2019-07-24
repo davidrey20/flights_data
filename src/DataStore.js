@@ -4,8 +4,11 @@ import axios from "axios";
 import cheerio from "cheerio";
 
 class DataStore {
-  //Departure data
+  //Query Variables
+  airlineCode = "";
+  flightNumber = "";
 
+  //Departure data
   @observable fromCity = "";
   @observable fromAirport = "";
   @observable departureTime = "";
@@ -20,7 +23,10 @@ class DataStore {
   @action getData = () => {
     axios
       .get(
-        "https://cors-anywhere.herokuapp.com/https://www.flightstats.com/v2/flight-tracker/SQ/11"
+        "https://cors-anywhere.herokuapp.com/https://www.flightstats.com/v2/flight-tracker/" +
+          this.airlineCode +
+          "/" +
+          this.flightNumber
       )
       .then(response => {
         // console.log(response.data);
@@ -85,7 +91,7 @@ class DataStore {
         //   $("div.text-helper__TextHelper-s8bko4a-0.cCfBRT", "html")[4]
         //     .children[0].data
         // );
-        this.departureTime = $(
+        this.arrivalTime = $(
           "div.text-helper__TextHelper-s8bko4a-0.cCfBRT",
           "html"
         )[4].children[0].data;
@@ -94,7 +100,7 @@ class DataStore {
         //   $("div.text-helper__TextHelper-s8bko4a-0.cCfBRT", "html")[4]
         //     .children[1].children[0].data
         // );
-        this.departureTimeSuffix = $(
+        this.arrivalTimeSuffix = $(
           "div.text-helper__TextHelper-s8bko4a-0.cCfBRT",
           "html"
         )[4].children[1].children[0].data;
